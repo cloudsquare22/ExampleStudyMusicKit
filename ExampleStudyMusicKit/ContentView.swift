@@ -11,8 +11,20 @@ struct ContentView: View {
     @EnvironmentObject var music: Music
 
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack {
+            Text("Hello, MusicKit!")
+                .font(.largeTitle)
+            HStack {
+                Image(systemName: "airpodsmax")
+                Image(systemName: "airpodspro")
+                Image(systemName: "homepod.and.homepodmini")
+                Image(systemName: "beats.powerbeatspro")
+            }
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(.white, .red)
+            .font(.largeTitle)
+        }
+        .padding()
     }
 }
 
