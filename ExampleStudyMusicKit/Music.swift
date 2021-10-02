@@ -14,9 +14,9 @@ class Music: ObservableObject {
     var status: MusicAuthorization.Status = MusicAuthorization.Status.notDetermined
 
     init() {
-        print(#function + " - MusicAuthorization.Status:\(self.status)")
+//        print(#function + " - MusicAuthorization.Status:\(self.status)")
         Task() {
-            await self.authotizationRequest()
+//            await self.authotizationRequest()
         }
     }
 
