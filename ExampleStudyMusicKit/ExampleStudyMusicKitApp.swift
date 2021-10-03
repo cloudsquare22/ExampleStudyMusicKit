@@ -21,15 +21,26 @@ struct ExampleStudyMusicKitApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    /// Opens a URL using the appropriate system service.
+    @Environment(\.openURL) private var openURL
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
- 
+
         Task {
-            print("MusicAuthorization.currentStatus:\(MusicAuthorization.currentStatus)")
-            if MusicAuthorization.currentStatus != .authorized {
-                let status = await MusicAuthorization.request()
-                print("MusicAuthorization.Status:\(status)")
+            var status = MusicAuthorization.currentStatus
+            print("MusicAuthorization.Status:\(status)")
+            switch status {
+            case .notDetermined:
+                status = await MusicAuthorization.request()
+            case .denied:
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    openURL(settingsURL)
+                }
+            default:
+                break
             }
+            print("MusicAuthorization.Status:\(status)")
         }
 
         return true
