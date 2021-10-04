@@ -24,4 +24,12 @@ class Music: ObservableObject {
         self.status = await MusicAuthorization.request()
         print(#function + " - MusicAuthorization.Status:\(self.status)")
     }
+    
+    func example() {
+        Task() {
+            let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Album.self])
+            let response = try await request.response()
+            print(response)
+        }
+    }
 }

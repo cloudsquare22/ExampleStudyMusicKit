@@ -23,6 +23,12 @@ struct ContentView: View {
             .symbolRenderingMode(.palette)
             .foregroundStyle(.white, .red)
             .font(.largeTitle)
+            Button(action: {
+                self.music.example()
+            }, label: {
+                Label("Let's MusicKit!!", systemImage: "music.note")
+                    .font(.largeTitle)
+            })
         }
         .padding()
     }
