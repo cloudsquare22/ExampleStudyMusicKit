@@ -27,9 +27,13 @@ class Music: ObservableObject {
     
     func example() {
         Task() {
-            let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Album.self])
+            let request = MusicCatalogSearchRequest(term: "氷室", types: [Artist.self])
             let response = try await request.response()
-            print(response)
+            print(response.debugDescription)
+            let artists: MusicItemCollection<Artist> = response.artists
+            artists.forEach({
+                print($0)
+            })
         }
     }
 }
