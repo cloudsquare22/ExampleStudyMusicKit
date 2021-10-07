@@ -26,10 +26,12 @@ class Music: ObservableObject {
     }
 
     func example() {
-        self.example1()
-        self.example2()
-        self.example3()
-        self.example4()
+//        self.example1()
+//        self.example2()
+//        self.example3()
+//        self.example4()
+//        self.example5()
+        self.example6()
     }
     
     func example1() {
@@ -78,4 +80,43 @@ class Music: ObservableObject {
         }
     }
 
+    func example5() {
+        Task() {
+            print("\nExample 5 --------------------")
+            var request = MusicCatalogSearchRequest(term: "氷室京介", types: [Song.self])
+            request.limit = 25
+            let response = try await request.response()
+            var songs: MusicItemCollection<Song> = response.songs
+            songs.forEach({
+                print($0)
+            })
+            
+            var countSongs = songs.count
+            
+            while songs.hasNextBatch == true {
+                if let songsNext = try await songs.nextBatch(limit: 25) {
+                    songs = songsNext
+                    songs.forEach({
+                        print($0)
+                    })
+                    countSongs = countSongs + songs.count
+                }
+            }
+            
+            print("Songs count:\(countSongs)")
+        }
+    }
+
+    func example6() {
+        Task() {
+            print("\nExample 6 --------------------")
+            let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Album.self])
+            let response = try await request.response()
+            if let album = response.albums.first {
+                print("album.tracks:\(album.tracks)")
+                let withAlbum = try await album.with([.tracks])
+                print("withAlbum.tracks:\(withAlbum.tracks)")
+            }
+        }
+    }
 }
