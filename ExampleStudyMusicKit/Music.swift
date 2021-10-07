@@ -24,10 +24,16 @@ class Music: ObservableObject {
         self.status = await MusicAuthorization.request()
         print(#function + " - MusicAuthorization.Status:\(self.status)")
     }
-    
+
     func example() {
+        self.example1()
+        self.example2()
+        self.example3()
+        self.example4()
+    }
+    
+    func example1() {
         Task() {
-            
             print("\nExample 1 --------------------")
             let request = MusicCatalogSearchRequest(term: "氷室", types: [Artist.self])
             let response = try await request.response()
@@ -36,7 +42,11 @@ class Music: ObservableObject {
             artists.forEach({
                 print($0)
             })
+        }
+    }
 
+    func example2() {
+        Task() {
             print("\nExample 2 --------------------")
             var request2 = MusicCatalogSearchRequest(term: "氷室京介", types: [Song.self])
             request2.limit = 25
@@ -46,17 +56,26 @@ class Music: ObservableObject {
             songs.forEach({
                 print($0)
             })
+        }
+    }
 
+    func example3() {
+        Task() {
             print("\nExample 3 --------------------")
             var request3 = MusicCatalogSearchRequest(term: "氷室京介", types: [Song.self])
             request3.limit = 100
             let response3 = try await request3.response()
             print(response3.debugDescription)
+        }
+    }
 
+    func example4() {
+        Task() {
             print("\nExample 4 --------------------")
             let request4 = MusicCatalogSearchRequest(term: "氷室京介", types: [])
             let response4 = try await request4.response()
             print(response4.debugDescription)
         }
     }
+
 }
