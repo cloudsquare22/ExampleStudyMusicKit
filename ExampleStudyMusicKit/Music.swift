@@ -31,7 +31,8 @@ class Music: ObservableObject {
 //        self.example3()
 //        self.example4()
 //        self.example5()
-        self.example6()
+//        self.example6()
+        self.example7()
     }
     
     func example1() {
@@ -151,4 +152,46 @@ class Music: ObservableObject {
             }
         }
     }
+    
+    func example7() {
+        Task() {
+            print("\nExample 7 --------------------")
+            let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Artist.self])
+            print(request.term.debugDescription)
+            let response = try await request.response()
+            if let artist = response.artists.first {
+                print(artist.albums)
+                print(artist.fullAlbums)
+                let withArtist = try await artist.with([.albums, .fullAlbums, .liveAlbums,. singles])
+                print(withArtist.albums?.count)
+                print(withArtist.albums?.hasNextBatch)
+                withArtist.albums!.forEach({
+                    print($0)
+                })
+                print(withArtist.fullAlbums?.count)
+                print(withArtist.fullAlbums?.hasNextBatch)
+                withArtist.fullAlbums!.forEach({
+                    print($0)
+                })
+                if let fullAlbumsNext = try await withArtist.fullAlbums!.nextBatch(limit: 25) {
+                    print(fullAlbumsNext.count)
+                    print(fullAlbumsNext.hasNextBatch)
+                    fullAlbumsNext.forEach({
+                        print($0)
+                    })
+                }
+                print(withArtist.liveAlbums?.count)
+                print(withArtist.liveAlbums?.hasNextBatch)
+                withArtist.liveAlbums!.forEach({
+                    print($0)
+                })
+                print(withArtist.singles?.count)
+                print(withArtist.singles?.hasNextBatch)
+                withArtist.singles!.forEach({
+                    print($0)
+                })
+            }
+        }
+    }
+
 }
