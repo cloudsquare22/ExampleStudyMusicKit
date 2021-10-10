@@ -32,8 +32,9 @@ class Music: ObservableObject {
 //        self.example4()
 //        self.example5()
 //        self.example6()
-        self.example7()
-        self.example8()
+//        self.example7()
+//        self.example8()
+        self.example9()
     }
     
     func example1() {
@@ -217,4 +218,25 @@ class Music: ObservableObject {
         }
     }
         
+    func example9() {
+        Task() {
+            print("\nExample 9 --------------------")
+            let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Album.self])
+            let response = try await request.response()
+            if let album = response.albums.first {
+                let withAlbum = try await album.with([.tracks])
+                withAlbum.tracks?.forEach({
+                    print($0.title)
+
+                    switch($0) {
+                    case .song(let song):
+                        print("\(song.discNumber!)-\(song.trackNumber!)")
+                    default:
+                        break
+                    }
+                })
+            }
+        }
+    }
+
 }
