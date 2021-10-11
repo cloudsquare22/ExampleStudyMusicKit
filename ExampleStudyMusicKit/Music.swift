@@ -214,6 +214,14 @@ class Music: ObservableObject {
                 print("artist:\(artist.fullAlbums?.count)")
                 let withArtist = try await artist.with([.fullAlbums])
                 print("withArtist: \(withArtist.fullAlbums?.count)")
+                
+                let player = SystemMusicPlayer.shared
+                let album = withArtist.fullAlbums!.first!
+                let musicQueue: SystemMusicPlayer.Queue = SystemMusicPlayer.Queue(arrayLiteral: album)
+                player.queue = musicQueue
+                try await player.play()
+
+                
             }
         }
     }
@@ -223,6 +231,7 @@ class Music: ObservableObject {
             print("\nExample 9 --------------------")
             let request = MusicCatalogSearchRequest(term: "氷室京介", types: [Album.self])
             let response = try await request.response()
+            var tracks: [Song] = []
             if let album = response.albums.first {
                 let withAlbum = try await album.with([.tracks])
                 withAlbum.tracks?.forEach({
@@ -231,10 +240,17 @@ class Music: ObservableObject {
                     switch($0) {
                     case .song(let song):
                         print("\(song.discNumber!)-\(song.trackNumber!)")
+                        tracks.append(song)
                     default:
                         break
                     }
                 })
+
+                let player = SystemMusicPlayer.shared
+                let musicQueue: SystemMusicPlayer.Queue = SystemMusicPlayer.Queue(arrayLiteral: tracks[0], tracks[1])
+                player.queue = musicQueue
+                try await player.play()
+
             }
         }
     }
