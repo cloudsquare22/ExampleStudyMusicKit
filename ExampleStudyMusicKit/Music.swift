@@ -33,8 +33,8 @@ class Music: ObservableObject {
 //        self.example5()
 //        self.example6()
 //        self.example7()
-//        self.example8()
-        self.example9()
+        self.example8()
+//        self.example9()
     }
     
     func example1() {
@@ -212,13 +212,21 @@ class Music: ObservableObject {
             let response = try await request.response()
             if let artist = response.artists.first {
                 print("artist:\(artist.fullAlbums?.count)")
-                let withArtist = try await artist.with([.fullAlbums])
+                let withArtist = try await artist.with([.fullAlbums, .topSongs, .playlists, .featuredPlaylists, .singles, .liveAlbums, .appearsOnAlbums, .compilationAlbums, .similarArtists])
                 print("withArtist: \(withArtist.fullAlbums?.count)")
+
+                print(withArtist.similarArtists)
                 
+                
+//                player.queue = [withArtist.topSongs!.first!]
+
+
                 let player = SystemMusicPlayer.shared
-                let album = withArtist.fullAlbums!.first!
-                let musicQueue: SystemMusicPlayer.Queue = SystemMusicPlayer.Queue(arrayLiteral: album)
-                player.queue = musicQueue
+
+//                let album = withArtist.fullAlbums!.first!
+//
+                player.queue = MusicPlayer.Queue(for: withArtist.topSongs!)
+
                 try await player.play()
 
                 
