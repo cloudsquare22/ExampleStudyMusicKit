@@ -9,6 +9,7 @@ import Foundation
 
 import SwiftUI
 import MusicKit
+import MediaPlayer
 
 class Music: ObservableObject {
     var status: MusicAuthorization.Status = MusicAuthorization.Status.notDetermined
@@ -225,7 +226,14 @@ class Music: ObservableObject {
 
 //                let album = withArtist.fullAlbums!.first!
 //
-                player.queue = MusicPlayer.Queue(for: withArtist.topSongs!)
+                player.queue = [withArtist.fullAlbums!.first!]
+//                player.queue = MusicPlayer.Queue(for: withArtist.topSongs!)
+
+                player.state.shuffleMode = .songs
+                
+//                let systemMusicPlayer = MPMusicPlayerController.systemMusicPlayer
+//                systemMusicPlayer.shuffleMode = .songs
+//                systemMusicPlayer.play()
 
                 try await player.play()
 
