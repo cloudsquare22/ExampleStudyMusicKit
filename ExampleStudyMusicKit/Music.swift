@@ -34,8 +34,9 @@ class Music: ObservableObject {
 //        self.example5()
 //        self.example6()
 //        self.example7()
-        self.example8()
+//        self.example8()
 //        self.example9()
+        self.example10()
     }
     
     func example1() {
@@ -217,7 +218,7 @@ class Music: ObservableObject {
                 print("withArtist: \(withArtist.fullAlbums?.count)")
 
                 print(withArtist.similarArtists)
-                
+                print(withArtist.fullAlbums!.first!)
                 
 //                player.queue = [withArtist.topSongs!.first!]
 
@@ -268,6 +269,17 @@ class Music: ObservableObject {
                 try await player.play()
 
             }
+        }
+    }
+    
+    func example10() {
+        Task() {
+//            let request = MusicCatalogResourceRequest<Album>(matching: \.id, equalTo: "390384258")
+            let request = MusicCatalogResourceRequest<Album>(matching: \.upc, equalTo: "4582209520108")
+            let response = try await request.response()
+            print(response.debugDescription)
+            print(response.items.first!.title)
+            print(response.items.first!.tracks)
         }
     }
 
