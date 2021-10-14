@@ -34,9 +34,9 @@ class Music: ObservableObject {
 //        self.example5()
 //        self.example6()
 //        self.example7()
-//        self.example8()
+        self.example8()
 //        self.example9()
-        self.example10()
+//        self.example10()
     }
     
     func example1() {
@@ -228,9 +228,9 @@ class Music: ObservableObject {
 //                let album = withArtist.fullAlbums!.first!
 //
                 player.queue = [withArtist.fullAlbums!.first!]
+                player.state.shuffleMode = .songs
 //                player.queue = MusicPlayer.Queue(for: withArtist.topSongs!)
 
-                player.state.shuffleMode = .songs
                 
 //                let systemMusicPlayer = MPMusicPlayerController.systemMusicPlayer
 //                systemMusicPlayer.shuffleMode = .songs
@@ -274,12 +274,13 @@ class Music: ObservableObject {
     
     func example10() {
         Task() {
-//            let request = MusicCatalogResourceRequest<Album>(matching: \.id, equalTo: "390384258")
-            let request = MusicCatalogResourceRequest<Album>(matching: \.upc, equalTo: "4582209520108")
+            let request = MusicCatalogResourceRequest<Album>(matching: \.id, equalTo: "390384258")
+//            let request = MusicCatalogResourceRequest<Album>(matching: \.upc, equalTo: "4582209520108")
             let response = try await request.response()
+            let items: MusicItemCollection<Album> = response.items
+
             print(response.debugDescription)
-            print(response.items.first!.title)
-            print(response.items.first!.tracks)
+            print(items.count)
         }
     }
 
