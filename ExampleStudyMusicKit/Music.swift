@@ -10,9 +10,11 @@ import Foundation
 import SwiftUI
 import MusicKit
 import MediaPlayer
+import Combine
 
 class Music: ObservableObject {
     var status: MusicAuthorization.Status = MusicAuthorization.Status.notDetermined
+    var cancellable: AnyCancellable?  = nil
 
     init() {
 //        print(#function + " - MusicAuthorization.Status:\(self.status)")
@@ -230,6 +232,9 @@ class Music: ObservableObject {
                 player.queue = [withArtist.fullAlbums!.first!]
                 player.state.shuffleMode = .songs
 //                player.queue = MusicPlayer.Queue(for: withArtist.topSongs!)
+                
+//                self.cancellable = player.state.objectWillChange
+//                    .sink(receiveCompletion: { a in print(a)}, receiveValue: {})
 
                 
 //                let systemMusicPlayer = MPMusicPlayerController.systemMusicPlayer
