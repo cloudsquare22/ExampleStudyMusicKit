@@ -36,8 +36,8 @@ class Music: ObservableObject {
 //        self.example5()
 //        self.example6()
 //        self.example7()
-        self.example8()
-//        self.example9()
+//        self.example8()
+        self.example9()
 //        self.example10()
     }
     
@@ -262,6 +262,7 @@ class Music: ObservableObject {
                     switch($0) {
                     case .song(let song):
                         print("\(song.discNumber!)-\(song.trackNumber!)")
+                        print(song.hasLyrics)
                         tracks.append(song)
                     default:
                         break
