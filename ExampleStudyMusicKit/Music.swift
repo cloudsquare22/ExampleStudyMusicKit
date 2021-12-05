@@ -39,7 +39,8 @@ class Music: ObservableObject {
 //        self.example8()
 //        self.example9()
 //        self.example10()
-        self.example11()
+//        self.example11()
+        self.example12()
     }
     
     func example1() {
@@ -303,4 +304,16 @@ class Music: ObservableObject {
         }
     }
 
+    func example12() {
+        Task() {
+            print("\nExample 12 --------------------")
+            let request = MusicCatalogSearchRequest(term: "鬼太鼓座", types: [Song.self])
+            let response = try await request.response()
+            if let song = response.songs.first {
+                print(song.id)
+                print(song.title)
+                try await MPMediaLibrary.default().addItem(withProductID: song.id.rawValue)
+            }
+        }
+    }
 }
